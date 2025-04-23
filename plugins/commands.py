@@ -4,8 +4,10 @@ import random
 from info import PICS, CHNL_LNK, GRP_LNK, SUPPORT_CHAT, CLONE_MODE
 from database.users_chats_db import db
 from Script import script  # for START_TXT
-from info import U_NAME, B_NAME  # for bot username and name
 
+# Define your bot username and bot name manually here
+U_NAME = "TechVJBot"
+B_NAME = "Tech VJ Filter Bot"
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
@@ -17,7 +19,7 @@ async def start(client, message):
     # For Groups
     if message.chat.type in ["group", "supergroup"]:
         buttons = [[
-            InlineKeyboardButton('⤬ Add me to your group ⤬', url=f'http://t.me/{script.U_NAME}?startgroup=true')
+            InlineKeyboardButton('⤬ Add me to your group ⤬', url=f'http://t.me/{U_NAME}?startgroup=true')
         ],[
             InlineKeyboardButton('Support Group', url=f'https://t.me/{SUPPORT_CHAT}'),
             InlineKeyboardButton('Movie Group', url=GRP_LNK)
@@ -25,7 +27,7 @@ async def start(client, message):
             InlineKeyboardButton('Join Update Channel', url=CHNL_LNK)
         ]]
         await message.reply(
-            script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, script.U_NAME, script.B_NAME),
+            script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, U_NAME, B_NAME),
             reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True
         )
@@ -46,7 +48,8 @@ async def start(client, message):
 
     await message.reply_photo(
         photo=random.choice(PICS),
-        caption=script.START_TXT.format(message.from_user.mention, script.U_NAME, script.B_NAME),
+        caption=script.START_TXT.format(message.from_user.mention, U_NAME, B_NAME),
         reply_markup=InlineKeyboardMarkup(buttons),
         parse_mode=enums.ParseMode.HTML
     )
+    
