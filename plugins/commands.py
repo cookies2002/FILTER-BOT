@@ -3,7 +3,9 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import random
 from info import PICS, CHNL_LNK, GRP_LNK, SUPPORT_CHAT, CLONE_MODE
 from database.users_chats_db import db
-from Script import script  # get START_TXT, B_NAME, U_NAME
+from Script import script  # for START_TXT
+from info import U_NAME, B_NAME  # for bot username and name
+
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
