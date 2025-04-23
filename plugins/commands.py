@@ -1,25 +1,49 @@
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from pyrogram import Client, filters, enums
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import random
+from info import PICS, temp, script, CHNL_LNK, GRP_LNK, SUPPORT_CHAT, CLONE_MODE
 
-@Client.on_message(filters.command(["start"]))
-async def start(client, message: Message):
-    await message.reply_photo(
-        photo="https://graph.org/file/2d3f285cf28737f30df19.jpg",
-        caption=f"""Hello {message.from_user.mention} 👋
+@Client.on_message(filters.command("start") & filters.incoming)
+async def start(client, message):
+    try:
+        await message.react(emoji="👋", big=True)
+    except:
+        pass
 
-I am a Telegram Bot for Movie Channel.
-You Can Watch Movies and Web Series From This Bot.
-
-Click /help For More Details.""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton("My Channel", url="https://t.me/+zHCFO5MNUHc2NmU1")
-                ],
-                [
-                    InlineKeyboardButton("My Group", url="https://t.me/Movies_Series_Mix")
-                ]
-            ]
+    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+        buttons = [[
+            InlineKeyboardButton('⤬ Add me to your group ⤬', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+        ],[
+            InlineKeyboardButton('Support Group', url=f'https://t.me/{SUPPORT_CHAT}'),
+            InlineKeyboardButton('Movie Group', url=GRP_LNK)
+        ],[
+            InlineKeyboardButton('Join Update Channel', url=CHNL_LNK)
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await message.reply(
+            script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, temp.U_NAME, temp.B_NAME),
+            reply_markup=reply_markup,
+            disable_web_page_preview=True
         )
+        return
+
+    if not await db.is_user_exist(message.from_user.id):
+        await db.add_user(message.from_user.id, message.from_user.first_name)
+
+    buttons = [[
+        InlineKeyboardButton('Help', callback_data='help'),
+        InlineKeyboardButton('About', callback_data='about')
+    ],[
+        InlineKeyboardButton('Join Update Channel', url=CHNL_LNK)
+    ]]
+    if CLONE_MODE:
+        buttons.append([InlineKeyboardButton('Create Your Own Clone Bot', callback_data='clone')])
+
+    reply_markup = InlineKeyboardMarkup(buttons)
+    await message.reply_photo(
+        photo=random.choice(PICS),  # Make sure PICS list has valid image URLs
+        caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
+        reply_markup=reply_markup,
+        parse_mode=enums.ParseMode.HTML
     )
     
