@@ -1,32 +1,35 @@
 from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import random
-from info import PICS, temp, script, CHNL_LNK, GRP_LNK, SUPPORT_CHAT, CLONE_MODE
+from info import PICS, CHNL_LNK, GRP_LNK, SUPPORT_CHAT, CLONE_MODE
+from database.users_chats_db import db
+from Script import script  # get START_TXT, B_NAME, U_NAME
 
 @Client.on_message(filters.command("start") & filters.incoming)
 async def start(client, message):
     try:
-        await message.react(emoji="👋", big=True)
+        await message.react(emoji=random.choice(["👋", "😊", "🔥"]), big=True)
     except:
         pass
 
-    if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
+    # For Groups
+    if message.chat.type in ["group", "supergroup"]:
         buttons = [[
-            InlineKeyboardButton('⤬ Add me to your group ⤬', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
+            InlineKeyboardButton('⤬ Add me to your group ⤬', url=f'http://t.me/{script.U_NAME}?startgroup=true')
         ],[
             InlineKeyboardButton('Support Group', url=f'https://t.me/{SUPPORT_CHAT}'),
             InlineKeyboardButton('Movie Group', url=GRP_LNK)
         ],[
             InlineKeyboardButton('Join Update Channel', url=CHNL_LNK)
         ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply(
-            script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, temp.U_NAME, temp.B_NAME),
-            reply_markup=reply_markup,
+            script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, script.U_NAME, script.B_NAME),
+            reply_markup=InlineKeyboardMarkup(buttons),
             disable_web_page_preview=True
         )
         return
 
+    # Private chat
     if not await db.is_user_exist(message.from_user.id):
         await db.add_user(message.from_user.id, message.from_user.first_name)
 
@@ -39,11 +42,9 @@ async def start(client, message):
     if CLONE_MODE:
         buttons.append([InlineKeyboardButton('Create Your Own Clone Bot', callback_data='clone')])
 
-    reply_markup = InlineKeyboardMarkup(buttons)
     await message.reply_photo(
-        photo=random.choice(PICS),  # Make sure PICS list has valid image URLs
-        caption=script.START_TXT.format(message.from_user.mention, temp.U_NAME, temp.B_NAME),
-        reply_markup=reply_markup,
+        photo=random.choice(PICS),
+        caption=script.START_TXT.format(message.from_user.mention, script.U_NAME, script.B_NAME),
+        reply_markup=InlineKeyboardMarkup(buttons),
         parse_mode=enums.ParseMode.HTML
     )
-    
