@@ -3,9 +3,10 @@
 # Ask Doubt on telegram @KingVJ01
 
 class script(object):
-    START_TXT = """<b><blockquote>ʜᴇʟʟᴏ {} 👋,</blockquote>
-    
-ɪ ᴀᴍ ʟᴀᴛᴇꜱᴛ ᴀᴅᴠᴀɴᴄᴇᴅ ᴀɴᴅ ᴘᴏᴡᴇʀꜰᴜʟ ᴀᴜᴛᴏ ꜰɪʟᴛᴇʀ ʙᴏᴛ. ʏᴏᴜ ᴄᴀɴ ᴜꜱᴇ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴛᴏ ᴇᴀʀɴ ᴜɴʟɪᴍɪᴛᴇᴅ ᴍᴏɴᴇʏ...💸</b>"""
+    START_TXT = """<b><blockquote>ʜᴇʟʟᴏ {} 🌚🥀,</blockquote>
+
+ɪ’ᴍ ᴀ ʙᴇᴀᴜᴛɪꜰᴜʟʟʏ ᴄʀᴀꜰᴛᴇᴅ ᴀᴜᴛᴏ ꜰɪʟᴛᴇʀ ʙᴏᴛ – ᴀᴅᴠᴀɴᴄᴇᴅ, sᴍᴀʀᴛ & ᴀʟᴡᴀʏs ᴏɴ ᴘᴏɪɴᴛ. 
+ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ʟᴇᴛ ᴍᴇ ʜᴀɴᴅʟᴇ ᴛʜᴇ ᴄʜᴀᴏꜱ ᴡɪᴛʜ ꜱᴛʏʟᴇ.</b>"""
 
     CLONE_START_TXT = """<b><blockquote>ʜᴇʟʟᴏ {}, ᴍʏ ɴᴀᴍᴇ <a href=https://t.me/{}>{}</a></blockquote>
     
